@@ -1,11 +1,13 @@
-import { InjectionToken } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Trip } from '../models/trip.model';
+import { GetTripsResponse } from '../models/api.model';
+import { ApiService } from './api.service';
 
-export interface TripDataService {
-  getTrips(): Observable<Trip[]>;
+@Injectable({ providedIn: 'root' })
+export class TripDataService {
+  private readonly api = inject(ApiService);
+
+  getTrips(): Observable<GetTripsResponse> {
+    return this.api.get<GetTripsResponse>('/trips');
+  }
 }
-
-export const TRIP_DATA_SERVICE = new InjectionToken<TripDataService>(
-  'TripDataService'
-);

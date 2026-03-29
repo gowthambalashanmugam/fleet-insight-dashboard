@@ -7,21 +7,23 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { routes } from './app.routes';
-import { VEHICLE_DATA_SERVICE } from './core/services/vehicle-data.service';
-import { MockVehicleDataService } from './core/services/mock-vehicle-data.service';
-import { TRIP_DATA_SERVICE } from './core/services/trip-data.service';
-import { MockTripDataService } from './core/services/mock-trip-data.service';
-import { ALERT_DATA_SERVICE } from './core/services/alert-data.service';
-import { MockAlertDataService } from './core/services/mock-alert-data.service';
+import { requestInterceptor } from './core/interceptors/request.interceptor';
+import { loadingInterceptor } from './core/interceptors/loading.interceptor';
+import { mockApiInterceptor } from './core/interceptors/mock-api.interceptor';
+import { responseInterceptor } from './core/interceptors/response.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes, withComponentInputBinding()),
-    provideHttpClient(withInterceptors([])),
-    { provide: VEHICLE_DATA_SERVICE, useClass: MockVehicleDataService },
-    { provide: TRIP_DATA_SERVICE, useClass: MockTripDataService },
-    { provide: ALERT_DATA_SERVICE, useClass: MockAlertDataService },
+    provideHttpClient(
+      withInterceptors([
+        requestInterceptor,  // 1. Attach JWT access token to outgoing requests
+        loadingInterceptor,  // 2. Track in-flight requests for global loading state
+        mockApiInterceptor,  // 3. Intercept /api/* and return mock JSON (REMOVE for real APIs)
+        responseInterceptor, // 4. Handle responses: 401/403 refresh flow, 500, network errors
+      ])
+    ),
   ],
 };

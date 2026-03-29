@@ -156,7 +156,7 @@ function mockVehicle(
   return {
     id,
     name: `Vehicle ${id}`,
-    registration: `ABC-${id}`,
+    registration: `SFM-${id}`,
     status,
     latitude: lat,
     longitude: lng,

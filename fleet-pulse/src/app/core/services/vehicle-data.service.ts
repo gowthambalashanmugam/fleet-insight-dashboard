@@ -1,11 +1,13 @@
-import { InjectionToken } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Vehicle } from '../models/vehicle.model';
+import { GetVehiclesResponse } from '../models/api.model';
+import { ApiService } from './api.service';
 
-export interface VehicleDataService {
-  getVehicles(): Observable<Vehicle[]>;
+@Injectable({ providedIn: 'root' })
+export class VehicleDataService {
+  private readonly api = inject(ApiService);
+
+  getVehicles(): Observable<GetVehiclesResponse> {
+    return this.api.get<GetVehiclesResponse>('/vehicles');
+  }
 }
-
-export const VEHICLE_DATA_SERVICE = new InjectionToken<VehicleDataService>(
-  'VehicleDataService'
-);
