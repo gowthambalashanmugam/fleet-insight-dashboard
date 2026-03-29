@@ -1,0 +1,114 @@
+<form class="add-vehicle-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <h2 class="form-title">Add New Vehicle</h2>
+
+  @if (submissionError(); as error) {
+    <div class="error-banner" role="alert">{{ error }}</div>
+  }
+
+  <div class="form-grid">
+    <!-- Vehicle Name -->
+    <div class="form-field">
+      <label for="name">Vehicle Name</label>
+      <input id="name" type="text" formControlName="name" placeholder="e.g. Fleet Truck 01" />
+      @if (form.controls.name.touched && form.controls.name.hasError('required')) {
+        <span class="field-error">Vehicle name is required</span>
+      }
+    </div>
+
+    <!-- Registration -->
+    <div class="form-field">
+      <label for="registration">Registration</label>
+      <input id="registration" type="text" formControlName="registration" placeholder="e.g. ABC 123" />
+      @if (form.controls.registration.touched && form.controls.registration.invalid) {
+        @if (form.controls.registration.hasError('required')) {
+          <span class="field-error">Registration is required</span>
+        } @else if (form.controls.registration.hasError('pattern')) {
+          <span class="field-error">Registration must be in format ABC 123</span>
+        }
+      }
+    </div>
+
+    <!-- Vehicle Type -->
+    <div class="form-field">
+      <label for="vehicleType">Vehicle Type</label>
+      <select id="vehicleType" formControlName="vehicleType">
+        @for (type of vehicleTypes; track type) {
+          <option [value]="type">{{ type }}</option>
+        }
+      </select>
+      @if (form.controls.vehicleType.touched && form.controls.vehicleType.hasError('required')) {
+        <span class="field-error">Vehicle type is required</span>
+      }
+    </div>
+
+    <!-- Driver Name -->
+    <div class="form-field">
+      <label for="driverName">Driver Name</label>
+      <input id="driverName" type="text" formControlName="driverName" placeholder="e.g. John Doe" />
+      @if (form.controls.driverName.touched && form.controls.driverName.hasError('required')) {
+        <span class="field-error">Driver name is required</span>
+      }
+    </div>
+
+    <!-- Driver Contact -->
+    <div class="form-field">
+      <label for="driverContact">Driver Contact</label>
+      <input id="driverContact" type="text" formControlName="driverContact" placeholder="e.g. +46 70 123 4567" />
+      @if (form.controls.driverContact.touched && form.controls.driverContact.hasError('required')) {
+        <span class="field-error">Driver contact is required</span>
+      }
+    </div>
+
+    <!-- Status -->
+    <div class="form-field">
+      <label for="status">Initial Status</label>
+      <select id="status" formControlName="status">
+        @for (s of statuses; track s) {
+          <option [value]="s">{{ s }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Latitude -->
+    <div class="form-field">
+      <label for="latitude">Latitude</label>
+      <input id="latitude" type="number" formControlName="latitude" step="0.01" />
+      @if (form.controls.latitude.touched && form.controls.latitude.invalid) {
+        @if (form.controls.latitude.hasError('required')) {
+          <span class="field-error">Latitude is required</span>
+        } @else if (form.controls.latitude.hasError('min') || form.controls.latitude.hasError('max')) {
+          <span class="field-error">Latitude must be between -90 and 90</span>
+        }
+      }
+    </div>
+
+    <!-- Longitude -->
+    <div class="form-field">
+      <label for="longitude">Longitude</label>
+      <input id="longitude" type="number" formControlName="longitude" step="0.01" />
+      @if (form.controls.longitude.touched && form.controls.longitude.invalid) {
+        @if (form.controls.longitude.hasError('required')) {
+          <span class="field-error">Longitude is required</span>
+        } @else if (form.controls.longitude.hasError('min') || form.controls.longitude.hasError('max')) {
+          <span class="field-error">Longitude must be between -180 and 180</span>
+        }
+      }
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <button type="button" class="btn-cancel" (click)="cancel.emit()">Cancel</button>
+    <button
+      type="submit"
+      class="btn-submit"
+      [disabled]="!isFormValid() || isSubmitting()"
+    >
+      @if (isSubmitting()) {
+        <span class="spinner" aria-hidden="true"></span>
+        Submitting…
+      } @else {
+        Add Vehicle
+      }
+    </button>
+  </div>
+</form>

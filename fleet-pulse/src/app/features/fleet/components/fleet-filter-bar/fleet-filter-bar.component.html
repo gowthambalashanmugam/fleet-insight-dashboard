@@ -1,0 +1,50 @@
+<div class="filter-bar flex flex-wrap items-center gap-3 p-4">
+  <!-- Search Input -->
+  <input
+    type="text"
+    class="filter-input flex-1 min-w-[200px]"
+    placeholder="Search by vehicle name or ID"
+    [ngModel]="searchTerm()"
+    (ngModelChange)="searchTerm.set($event)"
+  />
+
+  <!-- Status Filter -->
+  <select
+    class="filter-select"
+    [ngModel]="statusFilter()"
+    (ngModelChange)="statusFilter.set($event)"
+  >
+    <option value="All">All Statuses</option>
+    <option value="Active">Active</option>
+    <option value="Idle">Idle</option>
+    <option value="Maintenance">Maintenance</option>
+  </select>
+
+  <!-- Fuel Level Filter -->
+  <select
+    class="filter-select"
+    [ngModel]="fuelFilter()"
+    (ngModelChange)="fuelFilter.set($event)"
+  >
+    <option value="All">All Fuel Levels</option>
+    <option value="Low">Low (0-25%)</option>
+    <option value="Medium">Medium (26-50%)</option>
+    <option value="High">High (51-75%)</option>
+    <option value="Full">Full (76-100%)</option>
+  </select>
+
+  <!-- Vehicle Type Filter -->
+  <select
+    class="filter-select"
+    [ngModel]="vehicleTypeFilter()"
+    (ngModelChange)="vehicleTypeFilter.set($event)"
+  >
+    <option value="All">All Vehicle Types</option>
+    @for (type of vehicleTypes(); track type) {
+      <option [value]="type">{{ type }}</option>
+    }
+  </select>
+
+  <!-- Reset Button -->
+  <button class="reset-btn" (click)="resetFilters.emit()">Reset</button>
+</div>

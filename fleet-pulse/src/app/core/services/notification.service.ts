@@ -38,7 +38,7 @@ export class NotificationService {
     this._notifications.update((list) => list.filter((n) => n.id !== id));
   }
 
-  private add(message: string, type: Notification['type'], duration = 5000): void {
+  private add(message: string, type: Notification['type'], duration = 4000): void {
     const id = this.nextId++;
     this._notifications.update((list) => [...list, { id, message, type }]);
 

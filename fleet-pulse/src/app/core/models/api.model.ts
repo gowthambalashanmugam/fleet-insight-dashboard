@@ -65,6 +65,9 @@ export type GetVehicleResponse = Vehicle;
 export interface CreateVehicleRequest {
   name: string;
   registration: string;
+  vehicleType: string;
+  driverName: string;
+  driverContact: string;
   status: Vehicle['status'];
   latitude: number;
   longitude: number;

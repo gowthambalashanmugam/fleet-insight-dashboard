@@ -7,4 +7,6 @@ export interface Alert {
   longitude: number;
   severity: AlertSeverity;
   message: string;
+  type: string;
+  timestamp: string;
 }

@@ -1,0 +1,72 @@
+<div class="detail-panel">
+  <div class="detail-grid">
+    <!-- Left Column (60%) -->
+    <div class="left-column">
+      <h3 class="vehicle-name">{{ vehicle().name }}</h3>
+      <p class="registration">{{ vehicle().registration }}</p>
+      <p class="vehicle-type">{{ vehicle().vehicleType }}</p>
+
+      <div class="metrics-grid">
+        <div class="metric">
+          <span class="metric-label">Status</span>
+          <app-status-badge [status]="vehicle().status" />
+        </div>
+        <div class="metric">
+          <span class="metric-label">Speed</span>
+          <span class="metric-value">{{ vehicle().speed }} km/h</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Fuel Level</span>
+          <span class="metric-value">{{ vehicle().fuelLevel }}%</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Last Updated</span>
+          <span class="metric-value">{{ vehicle().lastUpdated | date:'medium' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column (40%) -->
+    <div class="right-column">
+      <div class="driver-info">
+        <h4 class="section-title">Driver Information</h4>
+        <p class="driver-name">{{ vehicle().driverName }}</p>
+        <p class="driver-contact">{{ vehicle().driverContact }}</p>
+      </div>
+
+      <div class="alerts-section">
+        <h4 class="section-title">Recent Alerts</h4>
+        @if (recentAlerts().length > 0) {
+          <ul class="alerts-list">
+            @for (alert of recentAlerts(); track alert.id) {
+              <li class="alert-item">
+                <span class="alert-type">{{ alert.type }}</span>
+                <span class="alert-severity" [style.color]="getSeverityColor(alert.severity)">
+                  {{ alert.severity }}
+                </span>
+                <span class="alert-timestamp">{{ alert.timestamp | date:'short' }}</span>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="no-alerts">No recent alerts</p>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="action-buttons">
+    <button class="btn btn-primary" (click)="viewDetails.emit(vehicle().id)">
+      View Full Details
+    </button>
+    <button class="btn btn-secondary" (click)="viewTripHistory.emit(vehicle().id)">
+      View Trip History
+    </button>
+    @if (hasHighSeverityAlert()) {
+      <button class="btn btn-danger" (click)="resolveAlert.emit(vehicle().id)">
+        Resolve Alert
+      </button>
+    }
+  </div>
+</div>
