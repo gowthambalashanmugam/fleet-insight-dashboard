@@ -1,0 +1,36 @@
+<div class="map-wrapper">
+  <div
+    class="map-container"
+    leaflet
+    [leafletOptions]="mapOptions"
+    [leafletLayers]="allLayers()"
+    (leafletMapReady)="onMapReady($event)"
+  ></div>
+
+  <div class="map-controls">
+    <button
+      type="button"
+      class="control-btn"
+      aria-label="Zoom in"
+      (click)="zoomIn()"
+    >
+      +
+    </button>
+    <button
+      type="button"
+      class="control-btn"
+      aria-label="Zoom out"
+      (click)="zoomOut()"
+    >
+      −
+    </button>
+    <button
+      type="button"
+      class="control-btn reset-btn"
+      aria-label="Reset view"
+      (click)="resetView()"
+    >
+      ⟳
+    </button>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<div class="dashboard-page bg-bg-primary min-h-full p-6">
+  <!-- Page Header -->
+  <div class="mb-6">
+    <h2 class="text-2xl font-bold text-text-primary">Dashboard</h2>
+    <p class="mt-1 text-sm text-text-secondary">Dashboard</p>
+  </div>
+
+  <!-- Error Banner -->
+  @if (error()) {
+    <div class="mb-4 flex items-center justify-between rounded-lg bg-red-50 p-4 text-red-700">
+      <span>{{ error() }}</span>
+      <button
+        class="rounded-md bg-red-600 px-4 py-1.5 text-sm font-medium text-white hover:bg-red-700"
+        (click)="onRetry()"
+      >
+        Retry
+      </button>
+    </div>
+  }
+
+  <!-- Loading Indicator -->
+  @if (isLoading()) {
+    <div class="mb-4 flex items-center gap-2 text-text-secondary">
+      <svg class="h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+      </svg>
+      <span class="text-sm">Loading dashboard data…</span>
+    </div>
+  }
+
+  <!-- Top Section: KPI Cards -->
+  <section class="mb-6">
+    <app-kpi-card-list [kpiData]="kpiData()" />
+  </section>
+
+  <!-- Middle Section: Live Tracking -->
+  <section class="mb-6">
+    <app-live-tracking-section
+      [vehicles]="vehicles()"
+      [alerts]="alerts()"
+      (refreshRequest)="onRefreshRequest()"
+    />
+  </section>
+
+  <!-- Bottom Section: Trip Summary + Latest Trip Table -->
+  <section class="dashboard-bottom-section">
+    <div class="dashboard-bottom-left">
+      <app-trip-summary-card-list [tripSummary]="tripSummary()" />
+    </div>
+    <div class="dashboard-bottom-right">
+      <app-latest-trip-table [trips]="trips()" />
+    </div>
+  </section>
+</div>

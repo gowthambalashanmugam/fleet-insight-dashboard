@@ -1,0 +1,12 @@
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+  @for (item of kpiData(); track item.category) {
+    <app-kpi-card
+      [title]="item.title"
+      [value]="item.value"
+      [icon]="item.icon"
+      [color]="item.color"
+      [category]="item.category"
+      (cardClick)="onCardClick($event)"
+    />
+  }
+</div>

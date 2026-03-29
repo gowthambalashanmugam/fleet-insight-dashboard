@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/features/fleet/fleet.component.ts", "src/app/features/fleet/fleet.component.html"],
+  "sourcesContent": ["import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-fleet',\n  templateUrl: './fleet.component.html',\n  styleUrl: './fleet.component.scss',\n})\nexport class FleetComponent {}\n", "<div>\n  <h2 class=\"text-2xl font-bold text-gray-800\">Fleet Management</h2>\n  <p class=\"mt-1 text-sm text-gray-500\">Manage and monitor your vehicles</p>\n</div>\n"],
+  "mappings": ";;;;;;;;;;;AAOM,IAAO,iBAAP,MAAO,gBAAc;;qCAAd,iBAAc;EAAA;yEAAd,iBAAc,WAAA,CAAA,CAAA,WAAA,CAAA,GAAA,OAAA,GAAA,MAAA,GAAA,QAAA,CAAA,CAAA,GAAA,YAAA,aAAA,eAAA,GAAA,CAAA,GAAA,QAAA,WAAA,eAAA,CAAA,GAAA,UAAA,SAAA,wBAAA,IAAA,KAAA;AAAA,QAAA,KAAA,GAAA;ACP3B,MAAA,4BAAA,GAAA,KAAA,EAAK,GAAA,MAAA,CAAA;AAC0C,MAAA,iBAAA,GAAA,kBAAA;AAAgB,MAAA,0BAAA;AAC7D,MAAA,4BAAA,GAAA,KAAA,CAAA;AAAsC,MAAA,iBAAA,GAAA,kCAAA;AAAgC,MAAA,0BAAA,EAAI;;;;;sEDK/D,gBAAc,CAAA;UAL1B;uBACW,aAAW,UAAA,uKAAA,QAAA,CAAA,sGAAA,EAAA,CAAA;;;;6EAIV,gBAAc,EAAA,WAAA,kBAAA,UAAA,6CAAA,YAAA,EAAA,CAAA;AAAA,GAAA;",
+  "names": []
+}

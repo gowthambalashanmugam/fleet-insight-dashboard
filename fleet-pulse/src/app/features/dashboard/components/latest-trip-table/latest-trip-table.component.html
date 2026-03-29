@@ -1,0 +1,69 @@
+<section class="latest-trip-table">
+  <div class="section-header">
+    <h2 class="text-lg font-semibold" style="color: var(--color-text-primary)">
+      Latest Trip
+    </h2>
+    <button
+      type="button"
+      class="see-all-link"
+      (click)="onSeeAll()"
+    >
+      See All
+    </button>
+  </div>
+
+  @if (trips().length === 0) {
+    <div class="empty-state flex items-center justify-center py-12">
+      <p class="text-sm" style="color: var(--color-text-secondary)">No trips found</p>
+    </div>
+  } @else {
+    <div class="table-wrapper overflow-x-auto">
+      <table class="w-full text-sm" style="color: var(--color-text-primary)">
+        <thead>
+          <tr class="text-left text-xs font-medium" style="color: var(--color-text-secondary)">
+            <th class="pb-3 pr-4">No</th>
+            <th class="pb-3 pr-4">Trip Number</th>
+            <th class="pb-3 pr-4">Driver</th>
+            <th class="pb-3 pr-4">Vehicle</th>
+            <th class="pb-3 pr-4">Destination</th>
+            <th class="pb-3 pr-4">Duration</th>
+            <th class="pb-3">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (trip of trips(); track trip.id; let i = $index) {
+            <tr
+              class="table-row cursor-pointer"
+              (click)="onRowClick(trip.id)"
+              [attr.aria-label]="'Trip ' + trip.tripNumber"
+            >
+              <td class="py-3 pr-4">{{ i + 1 }}</td>
+              <td class="py-3 pr-4 font-medium">{{ trip.tripNumber }}</td>
+              <td class="py-3 pr-4">
+                <div class="flex items-center gap-2">
+                  <img
+                    [src]="trip.driver.avatarUrl"
+                    [alt]="trip.driver.name"
+                    class="w-8 h-8 rounded-full object-cover shrink-0"
+                  />
+                  <span>{{ trip.driver.name }}</span>
+                </div>
+              </td>
+              <td class="py-3 pr-4">
+                <div class="flex flex-col">
+                  <span>{{ trip.vehicle.name }}</span>
+                  <span class="text-xs" style="color: var(--color-text-secondary)">{{ trip.vehicle.registration }}</span>
+                </div>
+              </td>
+              <td class="py-3 pr-4">{{ trip.destination }}</td>
+              <td class="py-3 pr-4">{{ trip.duration }}</td>
+              <td class="py-3">
+                <app-status-badge [status]="trip.status" />
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

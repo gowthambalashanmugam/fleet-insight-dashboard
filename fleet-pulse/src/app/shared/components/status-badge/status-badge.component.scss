@@ -1,0 +1,6 @@
+@use "../../../../styles/mixins" as *;
+
+.status-badge {
+  @include status-badge(transparent);
+  // background-color is set via inline style binding from the component
+}

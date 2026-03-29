@@ -1,0 +1,16 @@
+@theme {
+  --color-bg-primary: var(--color-bg-primary);
+  --color-bg-card: var(--color-bg-card);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-border: var(--color-border);
+  --color-accent: var(--color-accent);
+  --color-status-active: var(--color-status-active);
+  --color-status-idle: var(--color-status-idle);
+  --color-status-maintenance: var(--color-status-maintenance);
+  --color-status-ongoing: var(--color-status-ongoing);
+  --color-status-done: var(--color-status-done);
+  --color-status-cancelled: var(--color-status-cancelled);
+  --color-trend-up: var(--color-trend-up);
+  --color-trend-down: var(--color-trend-down);
+}

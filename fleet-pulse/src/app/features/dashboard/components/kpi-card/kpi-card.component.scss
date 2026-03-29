@@ -1,0 +1,21 @@
+@use "../../../../../styles/mixins" as *;
+
+:host {
+  display: block;
+}
+
+.kpi-card {
+  @include card-base;
+  border: none;
+  font: inherit;
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}

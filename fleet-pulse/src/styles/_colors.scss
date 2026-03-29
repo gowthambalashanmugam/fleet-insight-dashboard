@@ -1,0 +1,35 @@
+// Light theme (default)
+:root {
+  --color-bg-primary: #f3f4f6;
+  --color-bg-card: #ffffff;
+  --color-text-primary: #111827;
+  --color-text-secondary: #6b7280;
+  --color-border: #e5e7eb;
+  --color-status-active: #22c55e;
+  --color-status-idle: #eab308;
+  --color-status-maintenance: #ef4444;
+  --color-status-ongoing: #3b82f6;
+  --color-status-done: #22c55e;
+  --color-status-cancelled: #ef4444;
+  --color-accent: #6366f1;
+  --color-trend-up: #22c55e;
+  --color-trend-down: #ef4444;
+}
+
+// Dark theme
+.dark {
+  --color-bg-primary: #111827;
+  --color-bg-card: #1f2937;
+  --color-text-primary: #f9fafb;
+  --color-text-secondary: #9ca3af;
+  --color-border: #374151;
+  --color-status-active: #22c55e;
+  --color-status-idle: #eab308;
+  --color-status-maintenance: #ef4444;
+  --color-status-ongoing: #3b82f6;
+  --color-status-done: #22c55e;
+  --color-status-cancelled: #ef4444;
+  --color-accent: #818cf8;
+  --color-trend-up: #22c55e;
+  --color-trend-down: #ef4444;
+}

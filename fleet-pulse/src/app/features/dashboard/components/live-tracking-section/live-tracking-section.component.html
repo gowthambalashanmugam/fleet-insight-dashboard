@@ -1,0 +1,34 @@
+<section class="live-tracking">
+  <div class="section-header">
+    <h2 class="text-lg font-semibold" style="color: var(--color-text-primary)">
+      Live Tracking
+    </h2>
+    <div class="header-actions">
+      <label class="auto-refresh-toggle">
+        <input
+          type="checkbox"
+          [checked]="autoRefresh()"
+          (change)="toggleAutoRefresh()"
+        />
+        <span class="toggle-label">Auto-refresh</span>
+      </label>
+      <button
+        type="button"
+        class="refresh-btn"
+        aria-label="Refresh data"
+        (click)="onManualRefresh()"
+      >
+        ↻ Refresh
+      </button>
+      <button
+        type="button"
+        class="see-all-link"
+        (click)="onSeeAll()"
+      >
+        See All
+      </button>
+    </div>
+  </div>
+
+  <app-map [vehicles]="vehicles()" [alerts]="alerts()" />
+</section>
