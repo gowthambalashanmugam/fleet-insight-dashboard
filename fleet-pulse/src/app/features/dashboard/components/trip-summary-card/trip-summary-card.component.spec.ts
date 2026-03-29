@@ -72,7 +72,17 @@ describe('TripSummaryCardComponent', () => {
     expect(trend?.textContent).toContain('▼');
   });
 
-  it('should render a canvas element for the chart', () => {
+  it('should show a loading placeholder initially', () => {
+    const placeholder = fixture.nativeElement.querySelector('.chart-placeholder');
+    expect(placeholder).toBeTruthy();
+  });
+
+  it('should render a canvas element after chart.js loads', async () => {
+    // Wait for the dynamic import to complete
+    await new Promise(resolve => setTimeout(resolve, 500));
+    fixture.detectChanges();
+    await fixture.whenStable();
+
     const canvas = fixture.nativeElement.querySelector('canvas');
     expect(canvas).toBeTruthy();
     expect(canvas.width).toBe(60);

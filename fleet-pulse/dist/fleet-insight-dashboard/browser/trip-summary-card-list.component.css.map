@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/features/dashboard/components/trip-summary-card-list/trip-summary-card-list.component.scss", "src/app/features/dashboard/components/trip-summary-card-list/trip-summary-card-list.component.scss"],
-  "sourcesContent": [":host {\n  display: block;\n}\n", ":host {\n  display: block;\n}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJmaWxlOi8vL1VzZXJzL2dvd3RoYW1iL3RyYXRvbl9uZXdfcmVtb3RlL2ZsZWV0LWluc2lnaHQtZGFzaGJvYXJkL2ZsZWV0LXB1bHNlL3NyYy9hcHAvZmVhdHVyZXMvZGFzaGJvYXJkL2NvbXBvbmVudHMvdHJpcC1zdW1tYXJ5LWNhcmQtbGlzdC90cmlwLXN1bW1hcnktY2FyZC1saXN0LmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UiLCJzb3VyY2VzQ29udGVudCI6WyI6aG9zdCB7XG4gIGRpc3BsYXk6IGJsb2NrO1xufVxuIl19 */"],
-  "mappings": ";AAAA;AACE,WAAA;ACCF;",
-  "names": []
-}

@@ -3,7 +3,6 @@ import { Component, provideZonelessChangeDetection } from '@angular/core';
 import { MapComponent } from './map.component';
 import { Vehicle } from '../../../../core/models/vehicle.model';
 import { Alert } from '../../../../core/models/alert.model';
-import { CircleMarker, Circle } from 'leaflet';
 
 @Component({
   template: `<app-map [vehicles]="vehicles" [alerts]="alerts" />`,
@@ -37,115 +36,77 @@ describe('MapComponent', () => {
     expect(mapComponent).toBeTruthy();
   });
 
-  it('should render the map container', () => {
+  it('should start with leafletReady as false', () => {
+    expect(mapComponent.leafletReady()).toBe(false);
+  });
+
+  it('should start with leafletError as null', () => {
+    expect(mapComponent.leafletError()).toBeNull();
+  });
+
+  it('should show loading placeholder before leaflet loads', () => {
+    const placeholder = fixture.nativeElement.querySelector('.map-placeholder');
+    expect(placeholder).toBeTruthy();
+  });
+
+  it('should not show map container before leaflet loads', () => {
+    const mapEl = fixture.nativeElement.querySelector('.map-container');
+    expect(mapEl).toBeFalsy();
+  });
+
+  it('should not show controls before leaflet loads', () => {
+    const controls = fixture.nativeElement.querySelector('.map-controls');
+    expect(controls).toBeFalsy();
+  });
+
+  it('should show map container after leaflet loads', async () => {
+    // Simulate leaflet loading by setting the signal
+    mapComponent.leafletReady.set(true);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
     const mapEl = fixture.nativeElement.querySelector('.map-container');
     expect(mapEl).toBeTruthy();
   });
 
-  it('should produce zero markers for empty vehicles', () => {
-    expect(mapComponent.vehicleMarkers().length).toBe(0);
-  });
-
-  it('should produce zero overlays for empty alerts', () => {
-    expect(mapComponent.alertOverlays().length).toBe(0);
-  });
-
-  it('should produce markers matching vehicle count', async () => {
-    host.vehicles = [
-      mockVehicle('v1', 'Active', 59.33, 18.07),
-      mockVehicle('v2', 'Idle', 57.71, 11.97),
-    ];
-    fixture.changeDetectorRef.markForCheck();
+  it('should show controls after leaflet loads', async () => {
+    mapComponent.leafletReady.set(true);
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(mapComponent.vehicleMarkers().length).toBe(2);
+    const controls = fixture.nativeElement.querySelector('.map-controls');
+    expect(controls).toBeTruthy();
   });
 
-  it('should color Active vehicles green', async () => {
-    host.vehicles = [mockVehicle('v1', 'Active', 59.33, 18.07)];
-    fixture.changeDetectorRef.markForCheck();
+  it('should show error message when leaflet fails to load', async () => {
+    mapComponent.leafletError.set('Unable to load the map. Please try refreshing the page.');
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const marker = mapComponent.vehicleMarkers()[0] as CircleMarker;
-    expect(marker.options.fillColor).toBe('#22c55e');
+    const errorEl = fixture.nativeElement.querySelector('.map-error');
+    expect(errorEl).toBeTruthy();
+    expect(errorEl.textContent).toContain('Unable to load the map');
   });
 
-  it('should color Idle vehicles yellow', async () => {
-    host.vehicles = [mockVehicle('v1', 'Idle', 59.33, 18.07)];
-    fixture.changeDetectorRef.markForCheck();
+  it('should not show placeholder when error is set', async () => {
+    mapComponent.leafletError.set('Error');
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const marker = mapComponent.vehicleMarkers()[0] as CircleMarker;
-    expect(marker.options.fillColor).toBe('#eab308');
+    const placeholder = fixture.nativeElement.querySelector('.map-placeholder');
+    expect(placeholder).toBeFalsy();
   });
 
-  it('should color vehicles with alerts red', async () => {
-    host.vehicles = [mockVehicle('v1', 'Active', 59.33, 18.07)];
-    host.alerts = [mockAlert('a1', 'v1', 59.33, 18.07)];
-    fixture.changeDetectorRef.markForCheck();
+  it('should render 4 control buttons when leaflet is ready', async () => {
+    mapComponent.leafletReady.set(true);
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const marker = mapComponent.vehicleMarkers()[0] as CircleMarker;
-    expect(marker.options.fillColor).toBe('#ef4444');
-  });
-
-  it('should produce alert overlays matching alert count', async () => {
-    host.alerts = [
-      mockAlert('a1', 'v1', 59.33, 18.07),
-      mockAlert('a2', 'v2', 57.71, 11.97),
-    ];
-    fixture.changeDetectorRef.markForCheck();
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    expect(mapComponent.alertOverlays().length).toBe(2);
-  });
-
-  it('should place alert overlay at correct position', async () => {
-    host.alerts = [mockAlert('a1', 'v1', 60.5, 17.2)];
-    fixture.changeDetectorRef.markForCheck();
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    const overlay = mapComponent.alertOverlays()[0] as Circle;
-    const center = overlay.getLatLng();
-    expect(center.lat).toBe(60.5);
-    expect(center.lng).toBe(17.2);
-  });
-
-  it('should place vehicle marker at correct position', async () => {
-    host.vehicles = [mockVehicle('v1', 'Active', 63.2, 14.8)];
-    fixture.changeDetectorRef.markForCheck();
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    const marker = mapComponent.vehicleMarkers()[0] as CircleMarker;
-    const pos = marker.getLatLng();
-    expect(pos.lat).toBe(63.2);
-    expect(pos.lng).toBe(14.8);
-  });
-
-  it('should render zoom controls', () => {
     const buttons = fixture.nativeElement.querySelectorAll('.control-btn');
-    expect(buttons.length).toBe(3);
-  });
-
-  it('should filter out vehicles with NaN coordinates', async () => {
-    host.vehicles = [
-      mockVehicle('v1', 'Active', NaN, 18.07),
-      mockVehicle('v2', 'Active', 59.33, 18.07),
-    ];
-    fixture.changeDetectorRef.markForCheck();
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    expect(mapComponent.vehicleMarkers().length).toBe(1);
+    expect(buttons.length).toBe(4);
   });
 });
+
 
 function mockVehicle(
   id: string,

@@ -18,18 +18,18 @@ export const routes: Routes = [
       },
       {
         path: 'dashboard',
-        loadComponent: () =>
-          import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+        loadChildren: () =>
+          import('./features/dashboard/dashboard.routes').then((m) => m.dashboardRoutes),
       },
       {
         path: 'fleet',
-        loadComponent: () =>
-          import('./features/fleet/fleet.component').then((m) => m.FleetComponent),
+        loadChildren: () =>
+          import('./features/fleet/fleet.routes').then((m) => m.fleetRoutes),
       },
       {
         path: 'settings',
-        loadComponent: () =>
-          import('./features/settings/settings.component').then((m) => m.SettingsComponent),
+        loadChildren: () =>
+          import('./features/settings/settings.routes').then((m) => m.settingsRoutes),
       },
     ],
   },

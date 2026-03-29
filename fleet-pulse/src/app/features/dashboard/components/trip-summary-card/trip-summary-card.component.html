@@ -10,5 +10,13 @@
       {{ trendArrow }} {{ trendPercentage() }}%
     </span>
   </div>
-  <canvas #chartCanvas width="60" height="40" aria-hidden="true"></canvas>
+  @if (chartLoading()) {
+    <div class="chart-placeholder rounded bg-gray-200 animate-pulse" style="width: 60px; height: 40px;" aria-label="Loading chart"></div>
+  } @else if (chartError()) {
+    <div class="chart-error text-xs" style="width: 60px; height: 40px; display: flex; align-items: center; justify-content: center; color: var(--color-trend-down, #ef4444);">
+      {{ chartError() }}
+    </div>
+  } @else {
+    <canvas #chartCanvas width="60" height="40" aria-hidden="true"></canvas>
+  }
 </div>

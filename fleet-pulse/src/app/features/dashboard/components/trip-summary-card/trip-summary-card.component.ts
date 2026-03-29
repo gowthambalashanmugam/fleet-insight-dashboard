@@ -6,8 +6,8 @@ import {
   afterNextRender,
   effect,
   OnDestroy,
+  signal,
 } from '@angular/core';
-import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-trip-summary-card',
@@ -25,13 +25,17 @@ export class TripSummaryCardComponent implements OnDestroy {
 
   readonly chartCanvas = viewChild<ElementRef<HTMLCanvasElement>>('chartCanvas');
 
-  private chart: Chart | null = null;
+  readonly chartLoading = signal(true);
+  readonly chartError = signal<string | null>(null);
+
+  private ChartCtor: any = null;
+  private chart: any = null;
   private rendered = false;
 
   constructor() {
-    afterNextRender(() => {
+    afterNextRender(async () => {
       this.rendered = true;
-      this.rebuildChart();
+      await this.loadChartJs();
     });
 
     effect(() => {
@@ -39,10 +43,22 @@ export class TripSummaryCardComponent implements OnDestroy {
       this.chartData();
       this.chartType();
       this.color();
-      if (this.rendered) {
+      if (this.rendered && this.ChartCtor) {
         this.rebuildChart();
       }
     });
+  }
+
+  private async loadChartJs(): Promise<void> {
+    try {
+      const { default: Chart } = await import('chart.js/auto');
+      this.ChartCtor = Chart;
+      this.chartLoading.set(false);
+      this.rebuildChart();
+    } catch (e) {
+      this.chartLoading.set(false);
+      this.chartError.set('Unable to load chart. Please try refreshing the page.');
+    }
   }
 
   private rebuildChart(): void {
@@ -69,7 +85,7 @@ export class TripSummaryCardComponent implements OnDestroy {
 
   private createChart(): void {
     const canvas = this.chartCanvas();
-    if (!canvas) return;
+    if (!canvas || !this.ChartCtor) return;
 
     const ctx = canvas.nativeElement.getContext('2d');
     if (!ctx) return;
@@ -91,8 +107,8 @@ export class TripSummaryCardComponent implements OnDestroy {
     }
   }
 
-  private createDonutChart(ctx: CanvasRenderingContext2D, data: number[], color: string): Chart {
-    return new Chart(ctx, {
+  private createDonutChart(ctx: CanvasRenderingContext2D, data: number[], color: string): any {
+    return new this.ChartCtor(ctx, {
       type: 'doughnut',
       data: {
         labels: data.map((_, i) => `${i}`),
@@ -113,8 +129,8 @@ export class TripSummaryCardComponent implements OnDestroy {
     });
   }
 
-  private createBarChart(ctx: CanvasRenderingContext2D, data: number[], color: string): Chart {
-    return new Chart(ctx, {
+  private createBarChart(ctx: CanvasRenderingContext2D, data: number[], color: string): any {
+    return new this.ChartCtor(ctx, {
       type: 'bar',
       data: {
         labels: data.map((_, i) => `${i}`),
@@ -139,8 +155,8 @@ export class TripSummaryCardComponent implements OnDestroy {
     });
   }
 
-  private createAreaChart(ctx: CanvasRenderingContext2D, data: number[], color: string): Chart {
-    return new Chart(ctx, {
+  private createAreaChart(ctx: CanvasRenderingContext2D, data: number[], color: string): any {
+    return new this.ChartCtor(ctx, {
       type: 'line',
       data: {
         labels: data.map((_, i) => `${i}`),
