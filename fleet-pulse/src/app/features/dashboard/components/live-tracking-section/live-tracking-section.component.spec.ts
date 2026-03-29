@@ -1,8 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, provideZonelessChangeDetection } from '@angular/core';
+import { EMPTY } from 'rxjs';
 import { LiveTrackingSectionComponent } from './live-tracking-section.component';
 import { Vehicle } from '../../../../core/models/vehicle.model';
 import { Alert } from '../../../../core/models/alert.model';
+import { WebSocketService } from '../../../../core/services/websocket.service';
 
 @Component({
   template: `<app-live-tracking-section
@@ -24,10 +26,23 @@ describe('LiveTrackingSectionComponent', () => {
   let fixture: ComponentFixture<TestHostComponent>;
   let host: TestHostComponent;
 
+  const mockWebSocketService = {
+    connect: jasmine.createSpy('connect'),
+    disconnect: jasmine.createSpy('disconnect'),
+    vehicles$: EMPTY,
+    alerts$: EMPTY,
+  };
+
   beforeEach(async () => {
+    mockWebSocketService.connect.calls.reset();
+    mockWebSocketService.disconnect.calls.reset();
+
     await TestBed.configureTestingModule({
       imports: [TestHostComponent],
-      providers: [provideZonelessChangeDetection()],
+      providers: [
+        provideZonelessChangeDetection(),
+        { provide: WebSocketService, useValue: mockWebSocketService },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestHostComponent);

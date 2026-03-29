@@ -42,13 +42,19 @@
     />
   </section>
 
-  <!-- Bottom Section: Trip Summary + Latest Trip Table -->
-  <section class="dashboard-bottom-section">
-    <div class="dashboard-bottom-left">
-      <app-trip-summary-card-list [tripSummary]="tripSummary()" />
-    </div>
-    <div class="dashboard-bottom-right">
-      <app-latest-trip-table [trips]="trips()" />
-    </div>
-  </section>
+  <!-- Bottom Section: Trip Summary + Latest Trip Table (deferred until visible) -->
+  @defer (on viewport) {
+    <section class="dashboard-bottom-section">
+      <div class="dashboard-bottom-left">
+        <app-trip-summary-card-list [tripSummary]="tripSummary()" />
+      </div>
+      <div class="dashboard-bottom-right">
+        <app-latest-trip-table [trips]="trips()" />
+      </div>
+    </section>
+  } @placeholder {
+    <section class="dashboard-bottom-section">
+      <div class="skeleton-placeholder animate-pulse rounded-lg bg-bg-secondary h-64"></div>
+    </section>
+  }
 </div>
