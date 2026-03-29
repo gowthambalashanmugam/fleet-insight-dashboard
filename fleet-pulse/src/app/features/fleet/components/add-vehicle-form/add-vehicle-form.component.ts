@@ -88,6 +88,17 @@ export class AddVehicleFormComponent implements OnInit {
     this.destroyRef.onDestroy(() => sub.unsubscribe());
   }
 
+  resetForm(): void {
+    this.form.reset();
+    this.submissionError.set(null);
+    this.isSubmitting.set(false);
+  }
+
+  onCancel(): void {
+    this.resetForm();
+    this.cancel.emit();
+  }
+
   onSubmit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
