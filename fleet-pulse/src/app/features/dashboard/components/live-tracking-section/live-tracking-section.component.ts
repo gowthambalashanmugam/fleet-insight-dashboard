@@ -40,7 +40,4 @@ export class LiveTrackingSectionComponent implements OnInit {
     this.refreshRequest.emit();
   }
 
-  onSeeAll(): void {
-    this.seeAllClick.emit();
-  }
 }

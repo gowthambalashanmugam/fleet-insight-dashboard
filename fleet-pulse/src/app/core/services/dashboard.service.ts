@@ -1,35 +1,32 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Alert } from '../models/alert.model';
 import { Trip } from '../models/trip.model';
 import { Vehicle } from '../models/vehicle.model';
-import { ALERT_DATA_SERVICE, AlertDataService } from './alert-data.service';
-import { TRIP_DATA_SERVICE, TripDataService } from './trip-data.service';
-import {
-  VEHICLE_DATA_SERVICE,
-  VehicleDataService,
-} from './vehicle-data.service';
+import { VehicleDataService } from './vehicle-data.service';
+import { TripDataService } from './trip-data.service';
+import { AlertDataService } from './alert-data.service';
 
+/**
+ * Facade service for the dashboard.
+ * All data flows through real HTTP calls (GET /api/vehicles, etc.).
+ * The mock-api interceptor catches these in dev; remove it for production.
+ */
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
-  constructor(
-    @Inject(VEHICLE_DATA_SERVICE)
-    private readonly vehicleData: VehicleDataService,
-    @Inject(TRIP_DATA_SERVICE)
-    private readonly tripData: TripDataService,
-    @Inject(ALERT_DATA_SERVICE)
-    private readonly alertData: AlertDataService
-  ) {}
+  private readonly vehicleService = inject(VehicleDataService);
+  private readonly tripService = inject(TripDataService);
+  private readonly alertService = inject(AlertDataService);
 
   getVehicles(): Observable<Vehicle[]> {
-    return this.vehicleData.getVehicles();
+    return this.vehicleService.getVehicles();
   }
 
   getTrips(): Observable<Trip[]> {
-    return this.tripData.getTrips();
+    return this.tripService.getTrips();
   }
 
   getAlerts(): Observable<Alert[]> {
-    return this.alertData.getAlerts();
+    return this.alertService.getAlerts();
   }
 }

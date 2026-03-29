@@ -4,7 +4,7 @@
 
 .map-wrapper {
   position: relative;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   overflow: hidden;
 }
 
@@ -13,33 +13,35 @@
   width: 100%;
 }
 
+// Controls — pill row at bottom-right like the screenshot
 .map-controls {
   position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
+  bottom: 1rem;
+  right: 1rem;
   display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+  flex-direction: row;
+  gap: 0.375rem;
   z-index: 1000;
 }
 
 .control-btn {
-  width: 2rem;
-  height: 2rem;
+  width: 2.25rem;
+  height: 2.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
   background: white;
   border: 1px solid var(--color-border, #e5e7eb);
-  border-radius: 0.375rem;
-  font-size: 1rem;
-  font-weight: 600;
+  border-radius: 50%;
   cursor: pointer;
-  color: var(--color-text-primary, #111827);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  color: var(--color-text-secondary, #6b7280);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.15s ease;
 
   &:hover {
-    background: #f3f4f6;
+    background: #f9fafb;
+    color: var(--color-text-primary, #111827);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
   }
 
   &:focus-visible {
@@ -48,6 +50,59 @@
   }
 }
 
-.reset-btn {
-  margin-top: 0.25rem;
+// Truck marker icon styles (global via ::ng-deep since Leaflet injects outside Angular)
+::ng-deep {
+  .truck-marker {
+    background: transparent !important;
+    border: none !important;
+  }
+
+  .truck-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.15);
+    }
+  }
+
+  // Alert pulse animation
+  .alert-pulse-outer {
+    animation: pulse-outer 2s ease-in-out infinite;
+  }
+
+  .alert-pulse-inner {
+    animation: pulse-inner 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-outer {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.12; }
+  }
+
+  @keyframes pulse-inner {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.25; }
+  }
+
+  // Clean up Leaflet default popup styling
+  .leaflet-popup-content-wrapper {
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    padding: 0;
+  }
+
+  .leaflet-popup-content {
+    margin: 12px 16px;
+  }
+
+  .leaflet-popup-tip {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
 }
