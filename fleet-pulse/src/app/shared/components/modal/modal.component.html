@@ -1,0 +1,7 @@
+@if (isOpen()) {
+  <div class="modal-overlay" (click)="onBackdropClick($event)">
+    <div class="modal-content" role="dialog" aria-modal="true">
+      <ng-content />
+    </div>
+  </div>
+}

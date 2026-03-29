@@ -1,0 +1,53 @@
+<div class="pagination">
+  <div class="pagination-info">
+    <span>Showing {{ startItem() }}–{{ endItem() }} of {{ totalItems() }}</span>
+  </div>
+
+  <div class="pagination-controls">
+    <!-- Page size selector -->
+    <div class="page-size-selector">
+      <label>Rows per page:</label>
+      <select
+        [value]="pageSize()"
+        (change)="onPageSizeChange(+$any($event.target).value)"
+      >
+        @for (size of pageSizeOptions(); track size) {
+          <option [value]="size">{{ size }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Navigation buttons -->
+    <div class="page-nav">
+      <button
+        class="nav-btn"
+        [disabled]="!canGoPrevious()"
+        (click)="goFirst()"
+        aria-label="First page"
+      >«</button>
+      <button
+        class="nav-btn"
+        [disabled]="!canGoPrevious()"
+        (click)="goPrevious()"
+        aria-label="Previous page"
+      >‹</button>
+
+      <span class="page-indicator">
+        {{ currentPage() }} / {{ totalPages() }}
+      </span>
+
+      <button
+        class="nav-btn"
+        [disabled]="!canGoNext()"
+        (click)="goNext()"
+        aria-label="Next page"
+      >›</button>
+      <button
+        class="nav-btn"
+        [disabled]="!canGoNext()"
+        (click)="goLast()"
+        aria-label="Last page"
+      >»</button>
+    </div>
+  </div>
+</div>

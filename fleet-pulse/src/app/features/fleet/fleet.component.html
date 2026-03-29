@@ -1,4 +1,140 @@
-<div>
-  <h2 class="text-2xl font-bold text-gray-800">Fleet Management</h2>
-  <p class="mt-1 text-sm text-gray-500">Manage and monitor your vehicles</p>
+<div class="fleet-page bg-bg-primary min-h-full p-6">
+  <!-- Page Header -->
+  <div class="mb-6 flex items-center justify-between">
+    <h2 class="text-2xl font-bold text-text-primary">Fleet</h2>
+    <button
+      class="btn-add-vehicle rounded-md px-4 py-2 text-sm font-medium"
+      (click)="onAddVehicle()"
+    >
+      Add Vehicle
+    </button>
+  </div>
+
+  <!-- Error Banner -->
+  @if (error()) {
+    <div class="mb-4 flex items-center justify-between rounded-lg bg-red-50 p-4 text-red-700">
+      <span>{{ error() }}</span>
+      <button
+        class="rounded-md bg-red-600 px-4 py-1.5 text-sm font-medium text-white hover:bg-red-700"
+        (click)="onRetry()"
+      >
+        Retry
+      </button>
+    </div>
+  }
+
+  <!-- Loading Indicator -->
+  @if (isLoading()) {
+    <div class="mb-4 flex items-center gap-2 text-text-secondary">
+      <svg class="h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+      </svg>
+      <span class="text-sm">Loading fleet data…</span>
+    </div>
+  }
+
+  <!-- Filter Bar -->
+  <div class="mb-4">
+    <app-fleet-filter-bar
+      [(searchTerm)]="searchTerm"
+      [(statusFilter)]="statusFilter"
+      [(fuelFilter)]="fuelFilter"
+      [(vehicleTypeFilter)]="vehicleTypeFilter"
+      [vehicleTypes]="vehicleTypes()"
+      (resetFilters)="resetFilters()"
+    />
+  </div>
+
+  <!-- Vehicle Table -->
+  <app-card>
+    <table class="w-full text-left text-sm">
+      <thead>
+        <tr>
+          <th class="px-4 py-3">Vehicle ID</th>
+          <th class="px-4 py-3">Vehicle Name</th>
+          <th class="px-4 py-3">Driver</th>
+          <th class="px-4 py-3">Status</th>
+          <th class="px-4 py-3">Speed (km/h)</th>
+          <th class="px-4 py-3">Fuel (%)</th>
+          <th class="px-4 py-3">Last Updated</th>
+          <th class="px-4 py-3">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (vehicle of paginatedVehicles(); track vehicle.id) {
+          <tr
+            [class.active-row]="expandedVehicleId() === vehicle.id"
+            (click)="toggleExpand(vehicle.id)"
+            (keydown.enter)="toggleExpand(vehicle.id)"
+          >
+            <td class="px-4 py-3 font-mono text-xs">{{ vehicle.id }}</td>
+            <td class="px-4 py-3 font-medium">{{ vehicle.name }}</td>
+            <td class="px-4 py-3">{{ vehicle.driverName }}</td>
+            <td class="px-4 py-3">
+              <app-status-badge [status]="vehicle.status" />
+            </td>
+            <td class="px-4 py-3">{{ vehicle.speed }} km/h</td>
+            <td class="px-4 py-3">{{ vehicle.fuelLevel }}%</td>
+            <td class="px-4 py-3">{{ vehicle.lastUpdated | date:'medium' }}</td>
+            <td class="px-4 py-3">
+              <button
+                class="btn-toggle-details rounded px-3 py-1 text-xs font-medium"
+                (click)="$event.stopPropagation(); toggleExpand(vehicle.id)"
+              >
+                {{ expandedVehicleId() === vehicle.id ? 'Hide Details' : 'Show Details' }}
+              </button>
+            </td>
+          </tr>
+          @if (expandedVehicleId() === vehicle.id) {
+            <tr class="expanded-row">
+              <td colspan="8">
+                <app-fleet-detail-panel
+                  [vehicle]="vehicle"
+                  [alerts]="getAlertsForVehicle(vehicle.id)"
+                  (viewDetails)="toggleExpand($event)"
+                  (viewTripHistory)="toggleExpand($event)"
+                  (resolveAlert)="toggleExpand($event)"
+                />
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+
+    <!-- Pagination -->
+    @if (filteredVehicles().length > 0) {
+      <app-pagination
+        [totalItems]="filteredVehicles().length"
+        [(pageSize)]="pageSize"
+        [(currentPage)]="currentPage"
+        [pageSizeOptions]="[10, 50, 100]"
+      />
+    }
+
+    <!-- Empty state: filters produce no results -->
+    @if (filteredVehicles().length === 0 && !isLoading()) {
+      @if (vehicles().length > 0) {
+        <div class="py-12 text-center" style="color: var(--color-text-secondary)">
+          <p class="text-sm">No vehicles match the current filters.</p>
+        </div>
+      }
+    }
+
+    <!-- Empty state: no vehicles at all -->
+    @if (vehicles().length === 0 && !isLoading() && !error()) {
+      <div class="py-12 text-center" style="color: var(--color-text-secondary)">
+        <p class="text-sm">No vehicles found.</p>
+      </div>
+    }
+  </app-card>
 </div>
+
+<!-- Add Vehicle Modal -->
+<app-modal [isOpen]="showAddVehicleModal()" (closeModal)="onCloseModal()">
+  <app-add-vehicle-form
+    (vehicleAdded)="onVehicleAdded()"
+    (cancel)="onCloseModal()"
+  />
+</app-modal>
