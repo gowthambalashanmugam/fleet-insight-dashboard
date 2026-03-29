@@ -1,0 +1,22 @@
+<button
+  class="kpi-card flex items-center gap-4 cursor-pointer w-full text-left"
+  type="button"
+  [attr.aria-label]="title() + ': ' + value()"
+  (click)="onCardClick()"
+>
+  <div
+    class="icon-circle flex items-center justify-center w-12 h-12 rounded-full shrink-0 text-xl"
+    [style.background-color]="bgColorMap[color()]"
+    [style.color]="colorMap[color()]"
+  >
+    {{ icon() }}
+  </div>
+  <div class="flex flex-col">
+    <span class="text-2xl font-bold" style="color: var(--color-text-primary)">
+      {{ value() }}
+    </span>
+    <span class="text-sm" style="color: var(--color-text-secondary)">
+      {{ title() }}
+    </span>
+  </div>
+</button>

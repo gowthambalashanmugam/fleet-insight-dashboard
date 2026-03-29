@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/core/services/alert-data.service.ts", "src/app/core/services/trip-data.service.ts", "src/app/core/services/vehicle-data.service.ts"],
+  "sourcesContent": ["import { InjectionToken } from '@angular/core';\nimport { Observable } from 'rxjs';\nimport { Alert } from '../models/alert.model';\n\nexport interface AlertDataService {\n  getAlerts(): Observable<Alert[]>;\n}\n\nexport const ALERT_DATA_SERVICE = new InjectionToken<AlertDataService>(\n  'AlertDataService'\n);\n", "import { InjectionToken } from '@angular/core';\nimport { Observable } from 'rxjs';\nimport { Trip } from '../models/trip.model';\n\nexport interface TripDataService {\n  getTrips(): Observable<Trip[]>;\n}\n\nexport const TRIP_DATA_SERVICE = new InjectionToken<TripDataService>(\n  'TripDataService'\n);\n", "import { InjectionToken } from '@angular/core';\nimport { Observable } from 'rxjs';\nimport { Vehicle } from '../models/vehicle.model';\n\nexport interface VehicleDataService {\n  getVehicles(): Observable<Vehicle[]>;\n}\n\nexport const VEHICLE_DATA_SERVICE = new InjectionToken<VehicleDataService>(\n  'VehicleDataService'\n);\n"],
+  "mappings": ";;;;;AAQO,IAAM,qBAAqB,IAAI,eACpC,kBAAkB;;;ACDb,IAAM,oBAAoB,IAAI,eACnC,iBAAiB;;;ACDZ,IAAM,uBAAuB,IAAI,eACtC,oBAAoB;",
+  "names": []
+}

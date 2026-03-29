@@ -1,0 +1,9 @@
+@use "../../../../../styles/mixins" as *;
+
+:host {
+  display: block;
+}
+
+.trip-summary-card {
+  @include card-base;
+}

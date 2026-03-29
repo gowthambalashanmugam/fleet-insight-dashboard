@@ -1,0 +1,13 @@
+<div class="flex flex-col gap-4">
+  @for (item of tripSummary(); track item.title) {
+    <app-trip-summary-card
+      [title]="item.title"
+      [value]="item.value"
+      [trendPercentage]="item.trendPercentage"
+      [trendDirection]="item.trendDirection"
+      [chartType]="getChartType(item)"
+      [chartData]="getChartData(item)"
+      [color]="item.color"
+    />
+  }
+</div>

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/features/settings/settings.component.ts", "src/app/features/settings/settings.component.html"],
+  "sourcesContent": ["import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-settings',\n  templateUrl: './settings.component.html',\n  styleUrl: './settings.component.scss',\n})\nexport class SettingsComponent {}\n", "<div>\n  <h2 class=\"text-2xl font-bold text-gray-800\">Settings</h2>\n  <p class=\"mt-1 text-sm text-gray-500\">Application configuration</p>\n</div>\n"],
+  "mappings": ";;;;;;;;;;;AAOM,IAAO,oBAAP,MAAO,mBAAiB;;qCAAjB,oBAAiB;EAAA;yEAAjB,oBAAiB,WAAA,CAAA,CAAA,cAAA,CAAA,GAAA,OAAA,GAAA,MAAA,GAAA,QAAA,CAAA,CAAA,GAAA,YAAA,aAAA,eAAA,GAAA,CAAA,GAAA,QAAA,WAAA,eAAA,CAAA,GAAA,UAAA,SAAA,2BAAA,IAAA,KAAA;AAAA,QAAA,KAAA,GAAA;ACP9B,MAAA,4BAAA,GAAA,KAAA,EAAK,GAAA,MAAA,CAAA;AAC0C,MAAA,iBAAA,GAAA,UAAA;AAAQ,MAAA,0BAAA;AACrD,MAAA,4BAAA,GAAA,KAAA,CAAA;AAAsC,MAAA,iBAAA,GAAA,2BAAA;AAAyB,MAAA,0BAAA,EAAI;;;;;sEDKxD,mBAAiB,CAAA;UAL7B;uBACW,gBAAc,UAAA,wJAAA,QAAA,CAAA,+GAAA,EAAA,CAAA;;;;6EAIb,mBAAiB,EAAA,WAAA,qBAAA,UAAA,mDAAA,YAAA,EAAA,CAAA;AAAA,GAAA;",
+  "names": []
+}

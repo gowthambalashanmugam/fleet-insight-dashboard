@@ -1,0 +1,14 @@
+<div class="trip-summary-card flex items-center justify-between">
+  <div class="flex flex-col gap-1">
+    <span class="text-sm" style="color: var(--color-text-secondary)">
+      {{ title() }}
+    </span>
+    <span class="text-2xl font-bold" style="color: var(--color-text-primary)">
+      {{ value() }}
+    </span>
+    <span class="trend text-xs font-semibold" [style.color]="trendColor">
+      {{ trendArrow }} {{ trendPercentage() }}%
+    </span>
+  </div>
+  <canvas #chartCanvas width="60" height="40" aria-hidden="true"></canvas>
+</div>
