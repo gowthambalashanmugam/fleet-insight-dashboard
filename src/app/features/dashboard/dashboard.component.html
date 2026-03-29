@@ -1,0 +1,12 @@
+<div>
+  <h2 class="text-2xl font-bold text-gray-800">Dashboard</h2>
+  <p class="mt-1 text-sm text-gray-500">Fleet overview and key metrics</p>
+  <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    @for (card of cards; track card.title) {
+      <div class="rounded-lg bg-white p-6 shadow-sm">
+        <p class="text-sm font-medium text-gray-500">{{ card.title }}</p>
+        <p class="mt-2 text-3xl font-semibold text-gray-900">{{ card.value }}</p>
+      </div>
+    }
+  </div>
+</div>
