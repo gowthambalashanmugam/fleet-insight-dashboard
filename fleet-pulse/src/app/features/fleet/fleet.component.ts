@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { DatePipe } from '@angular/common';
 import { Subject, startWith, switchMap, catchError, of, tap } from 'rxjs';
@@ -104,6 +104,7 @@ export class FleetComponent {
 
   // Add Vehicle Modal
   readonly showAddVehicleModal = signal(false);
+  private readonly addVehicleForm = viewChild(AddVehicleFormComponent);
 
   toggleExpand(vehicleId: string): void {
     this.expandedVehicleId.update((current) => (current === vehicleId ? null : vehicleId));
@@ -138,6 +139,7 @@ export class FleetComponent {
   }
 
   onCloseModal(): void {
+    this.addVehicleForm()?.resetForm();
     this.showAddVehicleModal.set(false);
   }
 }

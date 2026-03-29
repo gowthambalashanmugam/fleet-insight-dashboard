@@ -27,9 +27,9 @@ export const routes: Routes = [
           import('./features/fleet/fleet.routes').then((m) => m.fleetRoutes),
       },
       {
-        path: 'settings',
+        path: 'alerts',
         loadChildren: () =>
-          import('./features/settings/settings.routes').then((m) => m.settingsRoutes),
+          import('./features/alerts/alerts.routes').then((m) => m.alertsRoutes),
       },
     ],
   },
