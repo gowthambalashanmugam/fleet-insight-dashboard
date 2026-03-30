@@ -81,7 +81,10 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
   // POST /api/auth/login
   if (req.method === 'POST' && url.endsWith('/api/auth/login')) {
     const body = req.body as LoginRequest | null;
-    if (body?.username && body?.password) {
+    if (
+      body?.username === 'fleet.manager' &&
+      body?.password === 'Fleet@123'
+    ) {
       const response: LoginResponse = {
         accessToken: btoa(`access:${body.username}:${Date.now()}`),
         refreshToken: btoa(`refresh:${body.username}:${Date.now()}`),
