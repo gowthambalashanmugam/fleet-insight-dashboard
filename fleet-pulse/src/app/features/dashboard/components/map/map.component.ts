@@ -67,11 +67,12 @@ export class MapComponent implements OnDestroy {
 
   private async loadLeaflet(): Promise<void> {
     try {
-      const [leaflet] = await Promise.all([
+      const [leafletModule] = await Promise.all([
         import('leaflet'),
         import('@bluehalo/ngx-leaflet'),
       ]);
-      this.L = leaflet;
+      // Handle ESM default export — production builds may wrap leaflet in a module object
+      this.L = (leafletModule as any).default ?? leafletModule;
       this.leafletReady.set(true);
       // Trigger change detection so the template renders #mapContainer
       this.cdr.detectChanges();
@@ -109,6 +110,14 @@ export class MapComponent implements OnDestroy {
     const L = this.L!;
     const container = this.mapContainerRef()?.nativeElement;
     if (!container) return;
+
+    // Fix Leaflet default icon paths (broken when served from subdirectory like GitHub Pages)
+    delete (L.Icon.Default.prototype as any)._getIconUrl;
+    L.Icon.Default.mergeOptions({
+      iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+      iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+      shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+    });
 
     this.mapInstance = L.map(container, {
       center: L.latLng(62, 15),
