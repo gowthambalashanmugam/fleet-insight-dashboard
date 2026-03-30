@@ -37,6 +37,9 @@
   cursor: pointer;
   letter-spacing: 0.5px;
   transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 
   &:hover {
     background: #d9363e;
