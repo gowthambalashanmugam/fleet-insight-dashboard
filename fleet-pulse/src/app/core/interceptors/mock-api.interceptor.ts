@@ -1,7 +1,8 @@
 import { inject } from '@angular/core';
 import { HttpInterceptorFn, HttpResponse } from '@angular/common/http';
-import { from, of, switchMap, delay, map } from 'rxjs';
+import { from, of, switchMap, delay, map, timeout, catchError } from 'rxjs';
 import { IndexedDbService } from '../services/indexed-db.service';
+import { SEED_ALERTS } from '../data/seed-data';
 import { Vehicle } from '../models/vehicle.model';
 import { Trip } from '../models/trip.model';
 import { Alert } from '../models/alert.model';
@@ -14,6 +15,7 @@ import {
   GetVehiclesResponse,
   GetTripsResponse,
   GetAlertsResponse,
+  DeleteAlertResponse,
 } from '../models/api.model';
 
 /**
@@ -47,7 +49,31 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
   // GET /api/alerts
   if (req.method === 'GET' && url.endsWith('/api/alerts')) {
     return from(db.getAll<Alert>('alerts')).pipe(
-      map(alerts => new HttpResponse<GetAlertsResponse>({ status: 200, body: alerts })),
+      timeout(3000),
+      map(alerts => {
+        // If IndexedDB returned empty (e.g. fresh DB still seeding), use seed data
+        const data = alerts.length > 0 ? alerts : SEED_ALERTS;
+        return new HttpResponse<GetAlertsResponse>({ status: 200, body: data });
+      }),
+      catchError(() => {
+        return of(new HttpResponse<GetAlertsResponse>({ status: 200, body: SEED_ALERTS }));
+      }),
+      delay(200)
+    );
+  }
+
+  // DELETE /api/alerts/:id
+  if (req.method === 'DELETE' && /\/api\/alerts\/[^/]+$/.exec(url)) {
+    const id = url.split('/').pop()!;
+    return from(db.getById<Alert>('alerts', id)).pipe(
+      switchMap(alert => {
+        if (alert) {
+          return from(db.delete('alerts', id)).pipe(
+            map(() => new HttpResponse<DeleteAlertResponse>({ status: 200, body: { message: `Alert ${id} deleted` } }))
+          );
+        }
+        return of(new HttpResponse<DeleteAlertResponse>({ status: 404, body: { message: `Alert ${id} not found` } }));
+      }),
       delay(200)
     );
   }

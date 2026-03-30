@@ -123,6 +123,10 @@ function mockVehicle(
     longitude: lng,
     speed: 60,
     fuelLevel: 75,
+    driverName: 'Driver',
+    driverContact: '555-0000',
+    vehicleType: 'Truck',
+    lastUpdated: new Date().toISOString(),
   };
 }
 
@@ -130,9 +134,14 @@ function mockAlert(id: string, vehicleId: string, lat: number, lng: number): Ale
   return {
     id,
     vehicleId,
+    vehicleName: `Vehicle ${vehicleId}`,
     latitude: lat,
     longitude: lng,
-    severity: 'high',
+    severity: 'WARNING',
     message: 'Test alert',
+    type: 'IDLE',
+    timestamp: new Date().toISOString(),
+    location: 'Test Location',
+    status: 'ACTIVE',
   };
 }

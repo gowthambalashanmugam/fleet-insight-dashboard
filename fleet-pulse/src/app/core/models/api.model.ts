@@ -93,3 +93,8 @@ export type GetAlertsResponse = Alert[];
 
 /** GET /api/alerts/:id — response body */
 export type GetAlertResponse = Alert;
+
+/** DELETE /api/alerts/:id — response body */
+export interface DeleteAlertResponse {
+  message: string;
+}

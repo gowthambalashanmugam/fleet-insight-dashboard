@@ -1,1 +1,19 @@
-/* shell component styles */
+.shell-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--color-bg-primary);
+}
+
+.shell-main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.shell-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+}

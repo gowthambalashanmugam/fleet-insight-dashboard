@@ -4,7 +4,7 @@ import { SEED_VEHICLES, SEED_TRIPS, SEED_ALERTS } from '../data/seed-data';
 @Injectable({ providedIn: 'root' })
 export class IndexedDbService {
   private readonly DB_NAME = 'fleet-pulse-db';
-  private readonly DB_VERSION = 1;
+  private readonly DB_VERSION = 3;
   private readonly ready: Promise<IDBDatabase>;
 
   constructor() {
@@ -28,6 +28,21 @@ export class IndexedDbService {
             db.createObjectStore('vehicles', { keyPath: 'id' });
             db.createObjectStore('trips', { keyPath: 'id' });
             db.createObjectStore('alerts', { keyPath: 'id' });
+            break;
+          case 1: {
+            // v2: Clear alerts store to re-seed with updated schema (title field added)
+            const tx1 = (event.target as IDBOpenDBRequest).transaction!;
+            const alertStore1 = tx1.objectStore('alerts');
+            alertStore1.clear();
+            break;
+          }
+          case 2: {
+            // v3: Force re-seed alerts with complete data (title + rich messages)
+            const tx2 = (event.target as IDBOpenDBRequest).transaction!;
+            const alertStore2 = tx2.objectStore('alerts');
+            alertStore2.clear();
+            break;
+          }
         }
       };
 

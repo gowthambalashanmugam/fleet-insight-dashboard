@@ -1,13 +1,13 @@
-<aside class="flex w-64 h-full flex-col border-r border-gray-200 bg-white">
-  <div class="flex h-16 items-center px-6 border-b border-gray-200">
-    <span class="text-xl font-bold text-indigo-600">FleetInsight</span>
+<aside class="sidebar-container">
+  <div class="sidebar-brand">
+    <span class="brand-text">FleetInsight</span>
   </div>
-  <nav class="flex-1 space-y-1 px-3 py-4">
+  <nav class="sidebar-nav">
     @for (item of navItems(); track item.route) {
       <a
         [routerLink]="item.route"
-        routerLinkActive="bg-indigo-50 text-indigo-600"
-        class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+        routerLinkActive="nav-active"
+        class="nav-item"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
           <path [attr.d]="item.svgPath" />

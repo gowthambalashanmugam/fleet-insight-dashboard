@@ -21,16 +21,16 @@ export class FleetDetailPanelComponent {
 
   readonly recentAlerts = computed(() => this.alerts().slice(0, 3));
   readonly hasHighSeverityAlert = computed(() =>
-    this.alerts().some(a => a.severity === 'high')
+    this.alerts().some(a => a.severity === 'CRITICAL')
   );
 
   getSeverityColor(severity: string): string {
     switch (severity) {
-      case 'high':
+      case 'CRITICAL':
         return 'var(--color-status-maintenance, #ef4444)';
-      case 'medium':
+      case 'WARNING':
         return 'var(--color-status-idle, #eab308)';
-      case 'low':
+      case 'INFO':
         return 'var(--color-status-active, #22c55e)';
       default:
         return '#6b7280';
