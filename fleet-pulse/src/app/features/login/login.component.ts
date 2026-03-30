@@ -13,8 +13,8 @@ export class LoginComponent {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
 
-  username = '';
-  password = '';
+  username = 'fleet.manager';
+  password = 'Fleet@123';
   error = signal('');
 
   private static readonly VALID_USERNAME = 'fleet.manager';
