@@ -19,7 +19,7 @@ function makeAlert(overrides: Partial<Alert> = {}): Alert {
     message: 'test',
     type: 'IDLE',
     timestamp: new Date().toISOString(),
-    location: 'NYC',
+    location: 'Stockholm',
     status: 'ACTIVE',
     ...overrides,
   };

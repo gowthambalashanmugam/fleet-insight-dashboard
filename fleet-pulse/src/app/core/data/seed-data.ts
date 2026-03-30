@@ -65,7 +65,7 @@ export const ALERT_TITLES = [
 ];
 export const MESSAGES = [
   'Over-Speed Alert: Vehicle was detected traveling at 112 km/h in a 80 km/h zone near E4 Highway, Stockholm. Speed limit exceeded by 32 km/h. On 03/28/2026 at 2:15 PM CET.',
-  'DTC Alert!: Check Engine / Diagnostic (DTC) Alert for vehicle on 03/27/2026 at 11:32 AM UTC near Gothenburg. Diagnostic Information: DTC #: 1 SPN: 111 FMI: 18 Occurrence Count: 18 Conversion Method: 0 SPN Name: Engine Coolant Level 1',
+  'DTC Alert!: Check Engine / Diagnostic (DTC) Alert for vehicle on 03/27/2026 at 11:32 AM CET near Gothenburg. Diagnostic Information: DTC #: 1 SPN: 111 FMI: 18 Occurrence Count: 18 Conversion Method: 0 SPN Name: Engine Coolant Level 1',
   'Extended Stop Alert: Vehicle has been stopped at Malmö Central Station for 96.3 hours which is beyond the allowed time. On 03/26/2026 at 11:00 AM CET.',
   'Geofence Breach Alert: Vehicle has exited the designated operational zone near Umeå industrial district. Boundary crossed at coordinates 63.82°N, 20.30°E. On 03/25/2026 at 9:45 AM CET.',
 ];

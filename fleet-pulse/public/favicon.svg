@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Background rounded square -->
+  <rect width="32" height="32" rx="7" fill="#6366f1"/>
+  <!-- Truck body -->
+  <rect x="4" y="11" width="15" height="10" rx="1.5" fill="white"/>
+  <!-- Truck cab -->
+  <path d="M19 14h5.5l2.5 4v3H19V14z" fill="white"/>
+  <!-- Windshield -->
+  <path d="M19.5 14.5h4.5l1.8 3h-6.3v-3z" fill="#6366f1" opacity="0.5"/>
+  <!-- Wheels -->
+  <circle cx="9" cy="22" r="2.5" fill="#6366f1" stroke="white" stroke-width="1"/>
+  <circle cx="9" cy="22" r="1" fill="white"/>
+  <circle cx="23" cy="22" r="2.5" fill="#6366f1" stroke="white" stroke-width="1"/>
+  <circle cx="23" cy="22" r="1" fill="white"/>
+</svg>
