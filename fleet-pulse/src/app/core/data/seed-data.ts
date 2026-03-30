@@ -1,6 +1,6 @@
 import { Vehicle, VehicleStatus } from '../models/vehicle.model';
 import { Trip, TripStatus } from '../models/trip.model';
-import { Alert, AlertSeverity } from '../models/alert.model';
+import { Alert, AlertSeverity, AlertType, AlertStatus } from '../models/alert.model';
 
 // ─── Helper Constants ────────────────────────────────────────
 
@@ -54,14 +54,20 @@ export const ALERT_LOCATIONS = [
   { lat: 65.6, lng: 22.13, city: 'Luleå' },
 ];
 
-export const A_SEVERITIES: AlertSeverity[] = ['low', 'medium', 'high'];
-export const ALERT_TYPES = ['Engine', 'Fuel', 'Speed', 'Maintenance', 'Tire'];
+export const A_SEVERITIES: AlertSeverity[] = ['CRITICAL', 'WARNING', 'INFO'];
+export const ALERT_TYPES: AlertType[] = ['OVER_SPEED', 'DTC', 'IDLE', 'GEOFENCE'];
+export const ALERT_STATUSES: AlertStatus[] = ['ACTIVE', 'ACKNOWLEDGED', 'RESOLVED'];
+export const ALERT_TITLES = [
+  'Over-Speed Alert',
+  'DTC Alert!',
+  'Extended Stop Alert',
+  'Geofence Breach Alert',
+];
 export const MESSAGES = [
-  'Engine temperature warning',
-  'Low fuel alert',
-  'Speeding detected',
-  'Maintenance overdue',
-  'Tire pressure low',
+  'Over-Speed Alert: Vehicle was detected traveling at 112 km/h in a 80 km/h zone near E4 Highway, Stockholm. Speed limit exceeded by 32 km/h. On 03/28/2026 at 2:15 PM CET.',
+  'DTC Alert!: Check Engine / Diagnostic (DTC) Alert for vehicle on 03/27/2026 at 11:32 AM UTC near Gothenburg. Diagnostic Information: DTC #: 1 SPN: 111 FMI: 18 Occurrence Count: 18 Conversion Method: 0 SPN Name: Engine Coolant Level 1',
+  'Extended Stop Alert: Vehicle has been stopped at Malmö Central Station for 96.3 hours which is beyond the allowed time. On 03/26/2026 at 11:00 AM CET.',
+  'Geofence Breach Alert: Vehicle has exited the designated operational zone near Umeå industrial district. Boundary crossed at coordinates 63.82°N, 20.30°E. On 03/25/2026 at 9:45 AM CET.',
 ];
 
 // ─── Seed Data Arrays ────────────────────────────────────────
@@ -102,13 +108,27 @@ export const SEED_TRIPS: Trip[] = Array.from({ length: 10 }, (_, i) => {
   };
 });
 
-export const SEED_ALERTS: Alert[] = ALERT_LOCATIONS.map((loc, i) => ({
-  id: `AL-${String(i + 1).padStart(3, '0')}`,
-  vehicleId: `VH-${String(i + 1).padStart(3, '0')}`,
-  latitude: loc.lat,
-  longitude: loc.lng,
-  severity: A_SEVERITIES[i % A_SEVERITIES.length],
-  message: MESSAGES[i % MESSAGES.length],
-  type: ALERT_TYPES[i % ALERT_TYPES.length],
-  timestamp: new Date(Date.now() - i * 1800000).toISOString(),
-}));
+// Severity distribution: Critical=2, Warning=5, Info=8
+const ALERT_SEVERITY_SEQUENCE: AlertSeverity[] = [
+  'CRITICAL', 'CRITICAL',
+  'WARNING', 'WARNING', 'WARNING', 'WARNING', 'WARNING',
+  'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO',
+];
+
+export const SEED_ALERTS: Alert[] = ALERT_SEVERITY_SEQUENCE.map((severity, i) => {
+  const loc = ALERT_LOCATIONS[i % ALERT_LOCATIONS.length];
+  return {
+    id: `AL-${String(i + 1).padStart(3, '0')}`,
+    vehicleId: `VH-${String(i + 1).padStart(3, '0')}`,
+    vehicleName: SEED_VEHICLES[i % SEED_VEHICLES.length].name,
+    latitude: loc.lat,
+    longitude: loc.lng,
+    severity,
+    title: ALERT_TITLES[i % ALERT_TITLES.length],
+    message: MESSAGES[i % MESSAGES.length],
+    type: ALERT_TYPES[i % ALERT_TYPES.length],
+    timestamp: new Date(Date.now() - i * 1800000).toISOString(),
+    location: loc.city,
+    status: ALERT_STATUSES[i % ALERT_STATUSES.length],
+  };
+});

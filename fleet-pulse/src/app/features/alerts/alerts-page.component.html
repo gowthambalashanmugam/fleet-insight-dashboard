@@ -1,0 +1,51 @@
+<div class="alerts-page">
+  <app-alert-header
+    [selectedCount]="selectedIds().size"
+    [totalCount]="displayedAlerts().length"
+    (sortChange)="onSortChange($event)"
+    (selectAll)="onSelectAll($event)"
+    (bulkDelete)="onBulkDelete()"
+  />
+
+  <div class="alerts-layout">
+    <div class="alerts-main">
+      @if (loading()) {
+        <div class="skeleton-container">
+          @for (item of [1, 2, 3]; track item) {
+            <div class="skeleton-card">
+              <div class="skeleton-line skeleton-line--short"></div>
+              <div class="skeleton-line skeleton-line--long"></div>
+              <div class="skeleton-line skeleton-line--medium"></div>
+            </div>
+          }
+        </div>
+      } @else if (error()) {
+        <div class="error-state">
+          <p>{{ error() }}</p>
+        </div>
+      } @else if (displayedAlerts().length === 0) {
+        <div class="empty-state">
+          <p>No alerts available</p>
+        </div>
+      } @else {
+        <div class="alerts-list">
+          @for (alert of displayedAlerts(); track alert.id) {
+            <app-alert-card
+              [alert]="alert"
+              [selected]="isSelected(alert.id)"
+              (selectionChange)="onSelectionChange($event)"
+              (delete)="onDelete($event)"
+            />
+          }
+        </div>
+      }
+    </div>
+
+    <aside class="alerts-sidebar">
+      <app-alert-filters
+        [alerts]="alerts()"
+        (filterChange)="onFilterChange($event)"
+      />
+    </aside>
+  </div>
+</div>

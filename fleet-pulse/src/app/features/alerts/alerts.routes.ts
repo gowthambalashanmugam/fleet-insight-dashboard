@@ -4,6 +4,6 @@ export const alertsRoutes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./alerts.component').then((m) => m.AlertsComponent),
+      import('./alerts-page.component').then((m) => m.AlertsPageComponent),
   },
 ];

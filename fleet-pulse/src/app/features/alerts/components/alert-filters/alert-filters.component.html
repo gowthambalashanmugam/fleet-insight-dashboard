@@ -1,0 +1,89 @@
+<div class="filter-sidebar">
+  <h3 class="sidebar-title">Filter Alert Events</h3>
+
+  <div class="filter-group">
+    <label class="filter-label" for="severity-filter">Alert Severity</label>
+    <select
+      id="severity-filter"
+      class="filter-select"
+      [(ngModel)]="selectedSeverity"
+      (ngModelChange)="onFilterChange()"
+    >
+      <option value="">All Severities</option>
+      @for (opt of severityOptions; track opt.value) {
+        <option [value]="opt.value">{{ opt.label }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label class="filter-label" for="name-filter">Alert Name</label>
+    <select
+      id="name-filter"
+      class="filter-select"
+      [(ngModel)]="alertName"
+      (ngModelChange)="onFilterChange()"
+    >
+      <option value="">All Alerts</option>
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label class="filter-label" for="type-filter">Alert Type</label>
+    <select
+      id="type-filter"
+      class="filter-select"
+      [(ngModel)]="selectedType"
+      (ngModelChange)="onFilterChange()"
+    >
+      <option value="">All Types</option>
+      @for (opt of typeOptions; track opt.value) {
+        <option [value]="opt.value">{{ opt.label }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label class="filter-label" for="asset-filter">Asset</label>
+    <select
+      id="asset-filter"
+      class="filter-select"
+      [(ngModel)]="assetName"
+      (ngModelChange)="onFilterChange()"
+    >
+      <option value="">All Assets</option>
+    </select>
+  </div>
+
+  <!-- Bar Chart: Alert Events by Severity -->
+  <div class="chart-section">
+    <h4 class="chart-title">Alert Events by Severity</h4>
+    <div class="bar-chart">
+      <div class="chart-y-axis">
+        @for (tick of [50, 40, 30, 20, 10, 0]; track tick) {
+          <span class="y-tick">{{ tick }}</span>
+        }
+      </div>
+      <div class="chart-bars">
+        <div class="bar-wrapper">
+          <div class="bar bar--critical" [style.height.%]="barHeight(severityCounts.critical)">
+            <span class="bar-value">{{ severityCounts.critical }}</span>
+          </div>
+          <span class="bar-label">Critical</span>
+        </div>
+        <div class="bar-wrapper">
+          <div class="bar bar--warning" [style.height.%]="barHeight(severityCounts.warning)">
+            <span class="bar-value">{{ severityCounts.warning }}</span>
+          </div>
+          <span class="bar-label">Warning</span>
+        </div>
+        <div class="bar-wrapper">
+          <div class="bar bar--info" [style.height.%]="barHeight(severityCounts.info)">
+            <span class="bar-value">{{ severityCounts.info }}</span>
+          </div>
+          <span class="bar-label">Information</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
