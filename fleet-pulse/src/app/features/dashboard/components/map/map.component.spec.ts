@@ -138,6 +138,7 @@ function mockAlert(id: string, vehicleId: string, lat: number, lng: number): Ale
     latitude: lat,
     longitude: lng,
     severity: 'WARNING',
+    title: 'Test Alert',
     message: 'Test alert',
     type: 'IDLE',
     timestamp: new Date().toISOString(),

@@ -108,7 +108,14 @@ export const SEED_TRIPS: Trip[] = Array.from({ length: 10 }, (_, i) => {
   };
 });
 
-export const SEED_ALERTS: Alert[] = Array.from({ length: 12 }, (_, i) => {
+// Severity distribution: Critical=2, Warning=5, Info=8
+const ALERT_SEVERITY_SEQUENCE: AlertSeverity[] = [
+  'CRITICAL', 'CRITICAL',
+  'WARNING', 'WARNING', 'WARNING', 'WARNING', 'WARNING',
+  'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO', 'INFO',
+];
+
+export const SEED_ALERTS: Alert[] = ALERT_SEVERITY_SEQUENCE.map((severity, i) => {
   const loc = ALERT_LOCATIONS[i % ALERT_LOCATIONS.length];
   return {
     id: `AL-${String(i + 1).padStart(3, '0')}`,
@@ -116,7 +123,7 @@ export const SEED_ALERTS: Alert[] = Array.from({ length: 12 }, (_, i) => {
     vehicleName: SEED_VEHICLES[i % SEED_VEHICLES.length].name,
     latitude: loc.lat,
     longitude: loc.lng,
-    severity: A_SEVERITIES[i % A_SEVERITIES.length],
+    severity,
     title: ALERT_TITLES[i % ALERT_TITLES.length],
     message: MESSAGES[i % MESSAGES.length],
     type: ALERT_TYPES[i % ALERT_TYPES.length],
